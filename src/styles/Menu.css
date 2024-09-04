@@ -1,0 +1,20 @@
+/* src/components/Menu.css */
+
+.menu-container {
+    border: 1px solid #ccc; /* Cor e espessura da borda */
+    border-radius: 0.5rem; /* Arredondamento dos cantos */
+    padding: 0.5rem; /* Espaçamento interno */
+    background-color: #fff; /* Cor de fundo */
+    height: 100vh; /* Ocupa toda a altura da tela */
+  }
+  
+  .menu-link {
+    padding: 0.5rem 1rem; /* Espaçamento interno dos links */
+    border: 1px solid #f8f9fa;
+    border-radius: 0.25rem; /* Arredondamento dos cantos dos links */
+  }
+  
+  .menu-link:hover {
+    background-color: #f8f9fa; /* Cor de fundo quando o mouse está sobre o link */
+  }
+  

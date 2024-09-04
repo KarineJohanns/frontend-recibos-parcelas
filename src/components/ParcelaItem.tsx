@@ -1,6 +1,9 @@
 // src/components/ParcelaItem.tsx
 import React from 'react';
+import '../styles/global.css'
 import { Dropdown } from 'react-bootstrap';
+import { ThreeDotsVertical } from 'react-bootstrap-icons';
+
 
 interface ParcelaItemProps {
   parcela: {
@@ -8,7 +11,9 @@ interface ParcelaItemProps {
     numeroParcelas: number;
     valorParcela: number;
     dataVencimento: string;
-    clienteNome: string;
+    cliente: { // Estrutura do cliente
+      clienteNome: string;
+    };
     paga: boolean; // Modificado para 'paga' como booleano
     parcelaId: number;
   };
@@ -29,23 +34,34 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
   onRenegociar,
   onGerarRecibo
 }) => {
-  // Status baseado no booleano paga
-  const statusClass = parcela.paga ? 'bg-success' : 'bg-warning';
+  const hoje = new Date();
+  const dataVencimento = new Date(parcela.dataVencimento);
+  
+  let statusClass = 'bg-warning'; // Default status
+  let statusText = 'Pendente';
+
+  if (parcela.paga) {
+    statusClass = 'bg-success';
+    statusText = 'Paga';
+  } else if (dataVencimento < hoje) {
+    statusClass = 'bg-danger';
+    statusText = 'Atrasada';
+  }
 
   return (
-    <div className="d-flex justify-content-between align-items-center mb-2 p-2 border">
+    <div className="d-flex justify-content-between align-items-center mb-2 p-2 border hover-gray-light">
       <div>
         <div>{`Parcela ${parcela.numeroParcela}/${parcela.numeroParcelas}`}</div>
         <div>Valor: R${parcela.valorParcela.toFixed(2)}</div>
-        <div>Vencimento: {parcela.dataVencimento}</div>
-        <div>Cliente: {parcela.clienteNome}</div>
+        <div>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</div>
+        <div>Cliente: {parcela.cliente.clienteNome}</div>
       </div>
       <div className={`badge ${statusClass} text-white`}>
-        {parcela.paga ? 'Paga' : 'Pendente'}
+        {statusText}
       </div>
       <Dropdown>
-        <Dropdown.Toggle variant="link" id="dropdown-basic">
-          &#x22EE;
+        <Dropdown.Toggle className="custom-dropdown-toggle" variant="link" id="dropdown-basic">
+        <ThreeDotsVertical size={24} /> {/* Adiciona o ícone */}
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => onDetalhes(parcela.parcelaId)}>Detalhes</Dropdown.Item>

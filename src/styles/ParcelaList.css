@@ -1,0 +1,16 @@
+/* Adiciona uma margem entre o menu e a listagem */
+.parcela-list-container {
+  margin: 20px; /* Ajuste a margem conforme necessário */
+}
+
+/* Permite rolagem na lista de parcelas */
+.parcelas-list {
+  max-height: 98vh;
+  overflow-y: auto;
+}
+
+/* Alinhamento horizontal do form */
+.align-items-center {
+  display: flex;
+  justify-content: space-between;
+}

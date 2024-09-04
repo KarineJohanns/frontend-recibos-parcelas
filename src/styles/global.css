@@ -1,0 +1,17 @@
+.hover-gray-light:hover {
+  background-color: #f0f0f0; /* Cor cinza claro */
+}
+
+.custom-dropdown-toggle::after {
+  display: none; /* Remove a seta padrão do dropdown */
+}
+
+.dropdown-toggle::after {
+  display: none !important; /* Remove a seta padrão do dropdown quando a classe custom-dropdown-toggle não é aplicada */
+}
+
+.menu-container {
+  height: 100vh; /* Ocupa toda a altura da tela */
+  overflow: auto; /* Garante que o conteúdo do menu possa rolar se necessário */
+  background-color: #f4f4f4; /* Ajuste a cor de fundo conforme necessário */
+}

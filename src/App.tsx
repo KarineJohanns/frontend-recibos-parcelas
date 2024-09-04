@@ -5,8 +5,9 @@ import Home from './pages/Home';
 import Clientes from './pages/Clientes';
 import Produtos from './pages/Produtos';
 import Emitente from './pages/Emitente';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
+import './styles/global.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => (
   <Router>
