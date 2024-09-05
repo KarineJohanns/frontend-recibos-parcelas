@@ -1,9 +1,8 @@
 // src/components/ParcelaItem.tsx
 import React from 'react';
-import '../styles/global.css'
+import '../styles/ParcelaItem.css';
 import { Dropdown } from 'react-bootstrap';
 import { ThreeDotsVertical } from 'react-bootstrap-icons';
-
 
 interface ParcelaItemProps {
   parcela: {
@@ -11,10 +10,10 @@ interface ParcelaItemProps {
     numeroParcelas: number;
     valorParcela: number;
     dataVencimento: string;
-    cliente: { // Estrutura do cliente
+    cliente: {
       clienteNome: string;
     };
-    paga: boolean; // Modificado para 'paga' como booleano
+    paga: boolean;
     parcelaId: number;
   };
   onReceber: (id: number) => void;
@@ -36,7 +35,7 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
 }) => {
   const hoje = new Date();
   const dataVencimento = new Date(parcela.dataVencimento);
-  
+
   let statusClass = 'bg-warning'; // Default status
   let statusText = 'Pendente';
 
@@ -49,8 +48,8 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
   }
 
   return (
-    <div className="d-flex justify-content-between align-items-center mb-2 p-2 border hover-gray-light">
-      <div>
+    <div className="parcela-item d-flex justify-content-between align-items-center mb-2 p-3">
+      <div className="info">
         <div>{`Parcela ${parcela.numeroParcela}/${parcela.numeroParcelas}`}</div>
         <div>Valor: R${parcela.valorParcela.toFixed(2)}</div>
         <div>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</div>
@@ -61,7 +60,7 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
       </div>
       <Dropdown>
         <Dropdown.Toggle className="custom-dropdown-toggle" variant="link" id="dropdown-basic">
-        <ThreeDotsVertical size={24} /> {/* Adiciona o ícone */}
+          <ThreeDotsVertical size={24} />
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => onDetalhes(parcela.parcelaId)}>Detalhes</Dropdown.Item>

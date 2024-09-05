@@ -1,0 +1,55 @@
+/* src/styles/ModalDetalhes.css */
+.modal-body p {
+  font-size: 1rem; /* Ajuste conforme necessário */
+}
+
+.modal-title {
+  font-size: 1.5rem; /* Ajuste conforme necessário */
+}
+
+.principal {
+  margin: 1rem 0 !important;
+  padding: 0 !important;
+}
+
+.filho1 {
+  --bs-gutter-x: 0 !important;
+  
+}
+
+.filho2 {
+  margin: 0 !important;
+  padding: 0 1rem 0 1rem !important;    
+}
+
+.filho3 {
+  padding: 0 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, .12);
+  margin-top: 10px !important;
+}
+
+h5 {
+  margin-top: 0 !important; 
+  padding: 0 !important;
+}
+.h5-section-title {
+  margin-top: 1rem; /* Ajuste o valor conforme necessário */
+  margin-bottom: 1rem; /* Ajuste o valor conforme necessário */
+  margin-left: 0 !important;
+  background-color: rgba(0, 0, 0, .12);
+  padding: 1rem !important;
+}
+
+p {
+  padding: 0 !important;
+  margin-bottom: 0.3rem !important;
+
+}
+
+.badge {
+  font-size: 1rem; /* Ajuste conforme necessário */
+  padding: 0.5rem 1rem;
+}
+ .status {
+  padding-left: 1rem;
+ }

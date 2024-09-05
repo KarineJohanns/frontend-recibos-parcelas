@@ -1,7 +1,7 @@
 // src/components/ModalParcela.tsx
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import api from '../api/axios';
+import api from '../../api/axios';
 
 interface ModalParcelaProps {
   show: boolean;

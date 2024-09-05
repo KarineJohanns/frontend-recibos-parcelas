@@ -1,16 +1,46 @@
-// src/components/Menu.tsx
-import React from 'react';
-import { Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import '../styles/Menu.css'; // Importa o arquivo CSS
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import '../styles/Menu.css'; // Adicione um arquivo de estilo para o menu
 
-const Menu: React.FC = () => (
-  <Nav className="flex-column menu-container"> {/* Adiciona a classe do container */}
-    <Nav.Link as={Link} to="/" className="menu-link">Parcelas</Nav.Link> {/* Adiciona a classe do link */}
-    <Nav.Link as={Link} to="/clientes" className="menu-link">Clientes</Nav.Link>
-    <Nav.Link as={Link} to="/produtos" className="menu-link">Produtos</Nav.Link>
-    <Nav.Link as={Link} to="/emitente" className="menu-link">Emitente</Nav.Link>
-  </Nav>
-);
+const Menu: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOverlayClick = () => {
+    setIsOpen(false);
+  };
+
+  // Função para determinar se um link é o link atual
+  const getLinkClassName = (path: string) => {
+    return location.pathname === path ? 'active' : '';
+  };
+
+  return (
+    <div>
+      {!isOpen && (
+        <button className="hamburger-btn" onClick={toggleMenu}>
+          ☰ {/* Ícone de menu */}
+        </button>
+      )}
+      <div 
+        className={`menu-overlay ${isOpen ? 'open' : ''}`} 
+        onClick={handleOverlayClick}
+      >
+        <nav className="menu-nav" onClick={(e) => e.stopPropagation()}>
+          <ul>
+            <li className={getLinkClassName('/')}><Link to="/" onClick={handleOverlayClick}>Parcelas</Link></li>
+            <li className={getLinkClassName('/clientes')}><Link to="/clientes" onClick={handleOverlayClick}>Clientes</Link></li>
+            <li className={getLinkClassName('/produtos')}><Link to="/produtos" onClick={handleOverlayClick}>Produtos</Link></li>
+            <li className={getLinkClassName('/emitente')}><Link to="/emitente" onClick={handleOverlayClick}>Emitente</Link></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
+};
 
 export default Menu;

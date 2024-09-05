@@ -1,20 +1,85 @@
-/* src/components/Menu.css */
+/* Botão do menu hambúrguer */
+.hamburger-btn {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+  cursor: pointer;
+  color: #000; /* Preto para o botão do menu hambúrguer */
+}
 
-.menu-container {
-    border: 1px solid #ccc; /* Cor e espessura da borda */
-    border-radius: 0.5rem; /* Arredondamento dos cantos */
-    padding: 0.5rem; /* Espaçamento interno */
-    background-color: #fff; /* Cor de fundo */
-    height: 100vh; /* Ocupa toda a altura da tela */
-  }
-  
-  .menu-link {
-    padding: 0.5rem 1rem; /* Espaçamento interno dos links */
-    border: 1px solid #f8f9fa;
-    border-radius: 0.25rem; /* Arredondamento dos cantos dos links */
-  }
-  
-  .menu-link:hover {
-    background-color: #f8f9fa; /* Cor de fundo quando o mouse está sobre o link */
-  }
-  
+/* Oculta o botão quando o menu está aberto */
+.menu-overlay.open ~ .hamburger-btn {
+  display: none;
+}
+
+/* Overlay que cobre toda a tela */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Backdrop escuro */
+  display: flex;
+  justify-content: flex-start; /* Alinha o menu à esquerda */
+  align-items: center;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 998;
+}
+
+/* Menu que ocupa 70% da largura da tela */
+.menu-overlay.open {
+  transform: translateX(0);
+}
+
+.menu-nav {
+  background-color: #fff; /* Menu claro */
+  color: #000; /* Letras escuras */
+  height: 100%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinha os itens à esquerda */
+  padding-top: 20px;
+  padding-left: 20px; /* Espaçamento interno à esquerda */
+}
+
+/* Estilo da lista de links no menu */
+.menu-nav ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.menu-nav ul li {
+  margin: 20px 0;
+  border-bottom: 1px solid #ddd; /* Cor da divisória */
+  padding-bottom: 10px;
+}
+
+.menu-nav ul li a {
+  font-size: 1.5rem;
+  color: #000; /* Letras escuras */
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.menu-nav ul li a:hover {
+  color: #ffce00; /* Cor do link quando hover */
+}
+
+/* Remove a divisória no último item da lista */
+.menu-nav ul li:last-child {
+  border-bottom: none;
+}
+
+/* Estilo para link atual */
+.menu-nav ul li.active a {
+  font-weight: bold;
+  color: #ffce00; /* Cor do link ativo */
+}

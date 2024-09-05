@@ -15,3 +15,15 @@
   overflow: auto; /* Garante que o conteúdo do menu possa rolar se necessário */
   background-color: #f4f4f4; /* Ajuste a cor de fundo conforme necessário */
 }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
