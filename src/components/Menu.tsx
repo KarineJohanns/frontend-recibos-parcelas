@@ -20,17 +20,26 @@ const Menu: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       {!isOpen && (
         <button className="hamburger-btn" onClick={toggleMenu}>
           ☰ {/* Ícone de menu */}
         </button>
       )}
-      <div 
-        className={`menu-overlay ${isOpen ? 'open' : ''}`} 
-        onClick={handleOverlayClick}
-      >
-        <nav className="menu-nav" onClick={(e) => e.stopPropagation()}>
+
+      {/* Menu lateral para telas maiores */}
+      <nav className="menu-nav menu-tela-grande">
+        <ul>
+          <li className={getLinkClassName('/')}><Link to="/" onClick={() => setIsOpen(false)}>Parcelas</Link></li>
+          <li className={getLinkClassName('/clientes')}><Link to="/clientes" onClick={() => setIsOpen(false)}>Clientes</Link></li>
+          <li className={getLinkClassName('/produtos')}><Link to="/produtos" onClick={() => setIsOpen(false)}>Produtos</Link></li>
+          <li className={getLinkClassName('/emitente')}><Link to="/emitente" onClick={() => setIsOpen(false)}>Emitente</Link></li>
+        </ul>
+      </nav>
+
+      {/* Overlay e menu hambúrguer para telas menores */}
+      <div className={`menu-overlay ${isOpen ? 'open' : ''}`} onClick={handleOverlayClick}>
+        <nav className="menu-nav menu-tela-pequena" onClick={(e) => e.stopPropagation()}>
           <ul>
             <li className={getLinkClassName('/')}><Link to="/" onClick={handleOverlayClick}>Parcelas</Link></li>
             <li className={getLinkClassName('/clientes')}><Link to="/clientes" onClick={handleOverlayClick}>Clientes</Link></li>
@@ -39,7 +48,7 @@ const Menu: React.FC = () => {
           </ul>
         </nav>
       </div>
-    </div>
+    </>
   );
 };
 

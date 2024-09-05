@@ -83,3 +83,37 @@
   font-weight: bold;
   color: #ffce00; /* Cor do link ativo */
 }
+
+.menu-nav.menu-tela-grande {
+  display: none;
+}
+
+/* Estilos para telas maiores */
+@media (min-width: 768px) {
+  .menu-overlay {
+    display: none; /* Oculta o overlay em telas maiores */
+  }
+
+  .hamburger-btn {
+    display: none; /* Oculta o botão do menu hambúrguer em telas maiores */
+  }
+
+  .menu-nav.menu-tela-grande {
+    display: flex; /* Exibe o menu lateral em telas maiores */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px; /* Largura fixa para o menu lateral */
+    background-color: #fff; /* Menu claro */
+    color: #000; /* Letras escuras */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 998;
+    padding-top: 20px;
+    padding-left: 20px; /* Espaçamento interno à esquerda */
+  }
+
+  .menu-nav.menu-tela-pequena {
+    display: none; /* Oculta o menu hambúrguer em telas maiores */
+  }
+}
