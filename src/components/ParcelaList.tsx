@@ -87,38 +87,39 @@ const ParcelaList: React.FC = () => {
   ));
 
   return (
-    <div className="parcela-list-container">
-      <h1>Lista de Parcelas</h1>
-      <Row className="align-items-center mb-3">
-        <Col md={6}>
-          <Form.Control
-            type="text"
-            placeholder="Buscar cliente"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </Col>
-        <Col md={3}>
-          <Form.Control
-            as="select"
-            value={itemsPerPage}
-            onChange={(e) => setItemsPerPage(Number(e.target.value))}
-          >
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </Form.Control>
-        </Col>
-        <Col md={3} className="text-end">
-          <Button variant="primary" onClick={() => setShowModal(true)}>
-            Criar Nova Parcela
-          </Button>
-        </Col>
-      </Row>
-      <div className="parcelas-list">
-        {parcelaItems}
+    <div className='parcela-list-container'>
+      <div className='parcela-list-header'>
+        <h1>Lista de Parcelas</h1>
+        <Row className='align-items-center mb-3'>
+          <Col md={6}>
+            <Form.Control
+            className='form-clientes'
+              type='text'
+              placeholder='Buscar cliente'
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </Col>
+          <Col md={3}>
+            <Form.Control
+              as='select'
+              value={itemsPerPage}
+              onChange={e => setItemsPerPage(Number(e.target.value))}
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </Form.Control>
+          </Col>
+          <Col md={3} className='text-end'>
+            <Button variant='primary' onClick={() => setShowModal(true)}>
+              Criar Nova Parcela
+            </Button>
+          </Col>
+        </Row>
       </div>
+      <div className='parcelas-list'>{parcelaItems}</div>
       <ModalParcela
         show={showModal}
         onClose={handleModalClose}

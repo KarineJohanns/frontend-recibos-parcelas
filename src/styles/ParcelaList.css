@@ -3,6 +3,27 @@
   margin: 20px; /* Ajuste a margem conforme necessário */
 }
 
+.parcela-list-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 70%;
+  margin: 0 auto;
+}
+
+/* Ajuste do h1 e dos controles do formulário */
+.parcela-list-header h1 {
+  font-size: 1.5rem; /* Ajuste o tamanho da fonte conforme necessário */
+  margin-bottom: 1rem; /* Espaçamento abaixo do título */
+}
+
+.parcela-list-header .row {
+  width: 100%; /* Faz com que o conteúdo da linha ocupe toda a largura disponível */
+}
+
+.parcela-list-header .form-clientes {
+}
+
 /* Permite rolagem na lista de parcelas */
 .parcelas-list {
   max-height: 98vh;
@@ -13,4 +34,14 @@
 .align-items-center {
   display: flex;
   justify-content: space-between;
+}
+
+/* Responsividade entre 768px e 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .parcela-list-container{
+    
+    margin-left: 60px;
+  }
+  
+  
 }
