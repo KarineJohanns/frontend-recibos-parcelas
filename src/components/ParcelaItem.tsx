@@ -36,6 +36,14 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
   const hoje = new Date();
   const dataVencimento = new Date(parcela.dataVencimento);
 
+  // Função para formatar o valor monetário
+  const formatarValor = (valor: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(valor / 100); // Converte de centavos para reais
+  };
+
   let statusClass = 'bg-warning'; // Default status
   let statusText = 'Pendente';
 
@@ -51,7 +59,7 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
     <div className="parcela-item d-flex justify-content-between align-items-center mb-2 p-3">
       <div className="info">
         <div>{`Parcela ${parcela.numeroParcela}/${parcela.numeroParcelas}`}</div>
-        <div>Valor: R${parcela.valorParcela.toFixed(2)}</div>
+        <div>Valor: {formatarValor(parcela.valorParcela)}</div>
         <div>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</div>
         <div>Cliente: {parcela.cliente.clienteNome}</div>
       </div>

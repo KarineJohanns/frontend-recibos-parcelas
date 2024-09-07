@@ -1,0 +1,7 @@
+.select-error .react-select__control {
+    border-color: #dc3545 !important;
+  }
+  
+  .select-error .react-select__indicator {
+    color: #dc3545 !important;
+  }

@@ -1,15 +1,16 @@
-// src/components/ParcelaList.tsx
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import ParcelaItem from './ParcelaItem';
-import ModalParcela from '../components/Modal/ModalParcela';
+import ModalReceberParcela from '../components/Modal/ModalReceberParcela';
+import ModalCriarParcela from '../components/Modal/ModalCriarParcelas';
 import ModalDetalhes from '../components/Modal/ModalDetalhes';
 import api from '../api/axios';
 import '../styles/ParcelaList.css';
 
 const ParcelaList: React.FC = () => {
   const [parcelas, setParcelas] = useState<any[]>([]);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showReceberModal, setShowReceberModal] = useState<boolean>(false);
+  const [showCriarModal, setShowCriarModal] = useState<boolean>(false);
   const [showDetalhesModal, setShowDetalhesModal] = useState<boolean>(false);
   const [parcelaId, setParcelaId] = useState<number | null>(null);
   const [selectedParcela, setSelectedParcela] = useState<any | null>(null);
@@ -32,7 +33,12 @@ const ParcelaList: React.FC = () => {
 
   const handleReceber = (id: number) => {
     setParcelaId(id);
-    setShowModal(true);
+    setShowReceberModal(true);
+  };
+
+  const handleCriarNovaParcela = () => {
+    setParcelaId(null); // Limpa o ID da parcela para nova criação
+    setShowCriarModal(true); // Abre o modal de criação
   };
 
   const handleDetalhes = (id: number) => {
@@ -42,13 +48,10 @@ const ParcelaList: React.FC = () => {
   };
 
   const handleModalClose = () => {
-    setShowModal(false);
-    setParcelaId(null);
-  };
-
-  const handleDetalhesModalClose = () => {
+    setShowReceberModal(false);
+    setShowCriarModal(false);
     setShowDetalhesModal(false);
-    setSelectedParcela(null);
+    setParcelaId(null);
   };
 
   // Filtro de busca
@@ -93,7 +96,7 @@ const ParcelaList: React.FC = () => {
         <Row className='align-items-center mb-3'>
           <Col md={6}>
             <Form.Control
-            className='form-clientes'
+              className='form-clientes'
               type='text'
               placeholder='Buscar cliente'
               value={search}
@@ -113,21 +116,25 @@ const ParcelaList: React.FC = () => {
             </Form.Control>
           </Col>
           <Col md={3} className='text-end'>
-            <Button variant='primary' onClick={() => setShowModal(true)}>
+            <Button variant='primary' onClick={handleCriarNovaParcela}>
               Criar Nova Parcela
             </Button>
           </Col>
         </Row>
       </div>
       <div className='parcelas-list'>{parcelaItems}</div>
-      <ModalParcela
-        show={showModal}
+      <ModalReceberParcela
+        show={showReceberModal}
         onClose={handleModalClose}
         parcelaId={parcelaId || 0}
       />
+      <ModalCriarParcela
+        show={showCriarModal}
+        onClose={handleModalClose}
+      />
       <ModalDetalhes
         show={showDetalhesModal}
-        onClose={handleDetalhesModalClose}
+        onClose={handleModalClose}
         parcela={selectedParcela}
       />
     </div>
