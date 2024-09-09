@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import ParcelaItem from './ParcelaItem';
-import ModalReceberParcela from '../components/Modal/ModalReceberParcela';
+import ParcelaItem from '../ParcelaItem';
+import ModalReceberParcela from '../compone';
 import ModalCriarParcela from '../components/Modal/ModalCriarParcelas';
 import ModalDetalhes from '../components/Modal/ModalDetalhes';
 import api from '../api/axios';
@@ -52,7 +52,12 @@ const ParcelaList: React.FC = () => {
     setShowCriarModal(false);
     setShowDetalhesModal(false);
     setParcelaId(null);
-    fetchParcelas();
+  };
+
+  // Função chamada após sucesso no pagamento da parcela
+  const handleSuccess = () => {
+    handleModalClose();
+    fetchParcelas(); // Atualiza a lista de parcelas
   };
 
   // Filtro de busca
@@ -128,6 +133,7 @@ const ParcelaList: React.FC = () => {
         show={showReceberModal}
         onClose={handleModalClose}
         parcelaId={parcelaId || 0}
+        onSuccess={handleSuccess}
       />
       <ModalCriarParcela
         show={showCriarModal}
