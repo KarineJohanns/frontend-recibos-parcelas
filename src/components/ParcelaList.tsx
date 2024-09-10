@@ -52,6 +52,7 @@ const ParcelaList: React.FC = () => {
     setShowCriarModal(false);
     setShowDetalhesModal(false);
     setParcelaId(null);
+    fetchParcelas();
   };
 
   // Filtro de busca

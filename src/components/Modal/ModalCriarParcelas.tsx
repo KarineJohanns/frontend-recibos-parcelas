@@ -130,7 +130,6 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
         emitenteId: 1, // Pode ser modificado conforme necessário
       });
       onClose(); // Fecha o modal
-      window.location.reload(); // Recarregar a página
     } catch (error) {
       console.error('Erro ao criar parcela', error);
     }
