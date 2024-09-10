@@ -4,6 +4,9 @@ import ParcelaItem from './ParcelaItem';
 import ModalReceberParcela from '../components/Modal/ModalReceberParcela';
 import ModalCriarParcela from '../components/Modal/ModalCriarParcelas';
 import ModalDetalhes from '../components/Modal/ModalDetalhes';
+import ModalEditarParcela from '../components/Modal/ModalEditarParcela';
+import ModalConfirmacaoExclusao from '../components/Modal/ModalConfirmacaoExclusao'; // Importar o ModalConfirmacaoExclusao
+import ModalRenegociacao from '../components/Modal/ModalRenegociacao'; // Importar o novo ModalRenegociacao
 import api from '../api/axios';
 import '../styles/ParcelaList.css';
 
@@ -12,6 +15,9 @@ const ParcelaList: React.FC = () => {
   const [showReceberModal, setShowReceberModal] = useState<boolean>(false);
   const [showCriarModal, setShowCriarModal] = useState<boolean>(false);
   const [showDetalhesModal, setShowDetalhesModal] = useState<boolean>(false);
+  const [showEditarModal, setShowEditarModal] = useState<boolean>(false);
+  const [showConfirmacaoExclusao, setShowConfirmacaoExclusao] = useState<boolean>(false); // Estado para o modal de confirmação de exclusão
+  const [showRenegociacaoModal, setShowRenegociacaoModal] = useState<boolean>(false); // Estado para o modal de renegociação
   const [parcelaId, setParcelaId] = useState<number | null>(null);
   const [selectedParcela, setSelectedParcela] = useState<any | null>(null);
   const [search, setSearch] = useState<string>('');
@@ -37,8 +43,8 @@ const ParcelaList: React.FC = () => {
   };
 
   const handleCriarNovaParcela = () => {
-    setParcelaId(null); // Limpa o ID da parcela para nova criação
-    setShowCriarModal(true); // Abre o modal de criação
+    setParcelaId(null);
+    setShowCriarModal(true);
   };
 
   const handleDetalhes = (id: number) => {
@@ -47,34 +53,58 @@ const ParcelaList: React.FC = () => {
     setShowDetalhesModal(true);
   };
 
+  const handleEditar = (id: number) => {
+    setParcelaId(id);
+    setShowEditarModal(true);
+  };
+
+  const handleConfirmacaoExclusao = (id: number) => {
+    setParcelaId(id);
+    setShowConfirmacaoExclusao(true);
+  };
+
+  const handleExcluir = async () => {
+    if (parcelaId === null) return;
+
+    try {
+      await api.delete(`/parcelas/${parcelaId}`);
+      setParcelas(prevParcelas => prevParcelas.filter(parcela => parcela.parcelaId !== parcelaId));
+      setShowConfirmacaoExclusao(false);
+    } catch (error) {
+      console.error('Erro ao excluir parcela', error);
+    }
+  };
+
+  const handleRenegociar = (id: number) => {
+    setParcelaId(id);
+    setShowRenegociacaoModal(true);
+  };
+
   const handleModalClose = () => {
     setShowReceberModal(false);
     setShowCriarModal(false);
     setShowDetalhesModal(false);
+    setShowEditarModal(false);
+    setShowConfirmacaoExclusao(false); // Fechar o modal de confirmação de exclusão
+    setShowRenegociacaoModal(false); // Fechar o modal de renegociação
     setParcelaId(null);
     fetchParcelas();
   };
 
-  // Filtro de busca
   const filteredParcelas = parcelas.filter(parcela => {
     const clienteNome = parcela.cliente.clienteNome || '';
     return clienteNome.toLowerCase().includes(search.toLowerCase());
   });
 
-  // Ordenação por status de pagamento e data de vencimento
   const sortedParcelas = filteredParcelas.sort((a, b) => {
-    // Ordenar por status de pagamento: não pagas antes de pagas
     if (a.paga !== b.paga) {
       return a.paga ? 1 : -1;
     }
-
-    // Se ambos têm o mesmo status, ordenar por data de vencimento
     const dateA = new Date(a.dataVencimento);
     const dateB = new Date(b.dataVencimento);
     return dateA.getTime() - dateB.getTime();
   });
 
-  // Paginação
   const paginatedParcelas = sortedParcelas.slice(0, currentPage * itemsPerPage);
 
   const parcelaItems = paginatedParcelas.map(parcela => (
@@ -82,10 +112,10 @@ const ParcelaList: React.FC = () => {
       key={parcela.parcelaId}
       parcela={parcela}
       onReceber={handleReceber}
-      onEditar={() => {}}
-      onExcluir={() => {}}
+      onEditar={() => handleEditar(parcela.parcelaId)}
+      onExcluir={() => handleConfirmacaoExclusao(parcela.parcelaId)}
       onDetalhes={handleDetalhes}
-      onRenegociar={() => {}}
+      onRenegociar={() => handleRenegociar(parcela.parcelaId)} // Adicionar função de renegociação
       onGerarRecibo={() => {}}
     />
   ));
@@ -137,6 +167,21 @@ const ParcelaList: React.FC = () => {
         show={showDetalhesModal}
         onClose={handleModalClose}
         parcela={selectedParcela}
+      />
+      <ModalEditarParcela
+        show={showEditarModal}
+        onClose={handleModalClose}
+        parcelaId={parcelaId || 0}
+      />
+      <ModalConfirmacaoExclusao
+        show={showConfirmacaoExclusao}
+        onClose={() => setShowConfirmacaoExclusao(false)}
+        onConfirm={handleExcluir}
+      />
+      <ModalRenegociacao
+        show={showRenegociacaoModal}
+        onClose={handleModalClose}
+        parcelaId={parcelaId || 0}
       />
     </div>
   );

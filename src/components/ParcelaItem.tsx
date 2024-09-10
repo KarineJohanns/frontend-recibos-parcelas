@@ -31,7 +31,7 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
   onExcluir,
   onDetalhes,
   onRenegociar,
-  onGerarRecibo
+  onGerarRecibo,
 }) => {
   const hoje = new Date();
   const dataVencimento = new Date(parcela.dataVencimento);
@@ -56,27 +56,51 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
   }
 
   return (
-    <div className="parcela-item d-flex justify-content-between align-items-center mb-2 p-3">
-      <div className="info">
+    <div className='parcela-item d-flex justify-content-between align-items-center mb-2 p-3'>
+      <div className='info'>
         <div>{`Parcela ${parcela.numeroParcela}/${parcela.numeroParcelas}`}</div>
         <div>Valor: {formatarValor(parcela.valorParcela)}</div>
         <div>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</div>
         <div>Cliente: {parcela.cliente.clienteNome}</div>
       </div>
-      <div className={`badge ${statusClass} text-white`}>
-        {statusText}
-      </div>
+      <div className={`badge ${statusClass} text-white`}>{statusText}</div>
       <Dropdown>
-        <Dropdown.Toggle className="custom-dropdown-toggle" variant="link" id="dropdown-basic">
+        <Dropdown.Toggle
+          className='custom-dropdown-toggle'
+          variant='link'
+          id='dropdown-basic'
+        >
           <ThreeDotsVertical size={24} />
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => onDetalhes(parcela.parcelaId)}>Detalhes</Dropdown.Item>
-          <Dropdown.Item onClick={() => onEditar(parcela.parcelaId)}>Editar</Dropdown.Item>
-          <Dropdown.Item onClick={() => onReceber(parcela.parcelaId)}>Receber</Dropdown.Item>
-          <Dropdown.Item onClick={() => onExcluir(parcela.parcelaId)}>Excluir</Dropdown.Item>
-          <Dropdown.Item onClick={() => onRenegociar(parcela.parcelaId)}>Renegociar</Dropdown.Item>
-          <Dropdown.Item onClick={() => onGerarRecibo(parcela.parcelaId)}>Gerar Recibo</Dropdown.Item>
+          {parcela.paga ? (
+            <>
+              <Dropdown.Item onClick={() => onGerarRecibo(parcela.parcelaId)}>
+                Gerar Recibo
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => onDetalhes(parcela.parcelaId)}>
+                Detalhes
+              </Dropdown.Item>
+            </>
+          ) : (
+            <>
+              <Dropdown.Item onClick={() => onReceber(parcela.parcelaId)}>
+                Receber
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => onDetalhes(parcela.parcelaId)}>
+                Detalhes
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => onEditar(parcela.parcelaId)}>
+                Editar
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => onExcluir(parcela.parcelaId)}>
+                Excluir
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => onRenegociar(parcela.parcelaId)}>
+                Renegociar
+              </Dropdown.Item>
+            </>
+          )}
         </Dropdown.Menu>
       </Dropdown>
     </div>
