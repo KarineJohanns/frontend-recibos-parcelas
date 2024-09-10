@@ -37,6 +37,26 @@ const ParcelaList: React.FC = () => {
     }
   };
 
+  // Alteração 1: Implementação do método para gerar o recibo
+  const handleGerarRecibo = async (id: number) => {
+    try {
+      const response = await api.get(`/recibos/${id}/pdf`, {
+        responseType: 'blob', // Define que a resposta será um blob (PDF)
+      });
+
+      // Cria um URL a partir do blob recebido
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `recibo_parcela_${id}.pdf`); // Nome do arquivo
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link); // Remove o link após o clique
+    } catch (error) {
+      console.error('Erro ao gerar recibo', error);
+    }
+  };
+
   const handleReceber = (id: number) => {
     setParcelaId(id);
     setShowReceberModal(true);
@@ -116,7 +136,7 @@ const ParcelaList: React.FC = () => {
       onExcluir={() => handleConfirmacaoExclusao(parcela.parcelaId)}
       onDetalhes={handleDetalhes}
       onRenegociar={() => handleRenegociar(parcela.parcelaId)} // Adicionar função de renegociação
-      onGerarRecibo={() => {}}
+      onGerarRecibo={() => handleGerarRecibo(parcela.parcelaId)} // Alteração 2: Passa a função de gerar recibo
     />
   ));
 
