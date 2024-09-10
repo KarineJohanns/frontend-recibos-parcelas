@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { NumericFormat } from 'react-number-format';
 import api from '../../api/axios';
+import ModalRenegociarParcela from './ModalRenegociarParcela';
+import ModalConfirmacao from './ModalConfirmacao';
 
 interface ModalReceberParcelaProps {
   show: boolean;
@@ -21,6 +23,7 @@ const ModalReceberParcela: React.FC<ModalReceberParcelaProps> = ({
   const [mensagemEscolha, setMensagemEscolha] = useState<string>('');
   const [showConfirmacao, setShowConfirmacao] = useState<boolean>(false);
   const [mensagemConfirmacao, setMensagemConfirmacao] = useState<string>('');
+  const [showRenegociarModal, setShowRenegociarModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchParcelaDetalhes = async () => {
@@ -55,7 +58,7 @@ const ModalReceberParcela: React.FC<ModalReceberParcelaProps> = ({
       const { escolhaNecessaria, mensagem } = response.data;
 
       if (escolhaNecessaria) {
-        setEscolhaNecessaria(true);  // Exibe o modal de escolha
+        setEscolhaNecessaria(true); // Exibe o modal de escolha
         setMensagemEscolha(mensagem); // Define a mensagem
       } else {
         setMensagemConfirmacao(mensagem); // Mensagem de confirmação de pagamento completo
@@ -66,11 +69,34 @@ const ModalReceberParcela: React.FC<ModalReceberParcelaProps> = ({
     }
   };
 
-  const handleAplicarDesconto = async () => {
+  const handleCancelarEscolha = async () => {
     try {
-      const response = await api.patch(`/parcelas/${parcelaId}/escolha`, {
+      await api.patch(`/parcelas/${parcelaId}/desfazer`);
+    } catch (error) {
+      console.error('Erro ao desfazer escolha da parcela', error);
+    }
+  };
+
+  const handleHide = async () => {
+    try {
+      // Chama a função assíncrona para desfazer a escolha
+      await handleCancelarEscolha();
+      
+      // Atualiza o estado
+      setEscolhaNecessaria(false);
+    } catch (error) {
+      console.error('Erro ao manipular o modal', error);
+    }
+  };
+  
+  const handleAplicarDesconto = async () => {
+    console.log("parcela: ", parcelaId);
+    try {
+      const response = await api.patch(`/parcelas/${parcelaId}/escolha`, {        
         gerarNovasParcelas: false
+        
       });
+      console.log(parcelaId);
 
       const { mensagem } = response.data;
 
@@ -82,15 +108,42 @@ const ModalReceberParcela: React.FC<ModalReceberParcelaProps> = ({
     }
   };
 
+  // Função para fechar o modal e cancelar a escolha
+  const handleClose = async () => {
+    try {
+      await handleCancelarEscolha(); // Chama a função para desfazer a escolha
+    } catch (error) {
+      console.error('Erro ao manipular o modal', error);
+    }
+    onClose(); // Fecha o modal
+  };
+
   const handleCloseConfirmacao = () => {
     setShowConfirmacao(false);
     onClose(); // Fecha o modal de pagamento
   };
 
+  const handleGerarNovasParcelas = () => {
+    setEscolhaNecessaria(false); // Fecha o ModalEscolhaNecessária
+    setShowRenegociarModal(true); // Abre o ModalRenegociarParcela
+  };
+
+  const handleRenegociacaoFinalizada = (mensagem: string) => {
+    setShowRenegociarModal(false); // Fecha o modal de renegociação
+    setMensagemConfirmacao(mensagem); // Define a mensagem de confirmação
+    setShowConfirmacao(true); // Abre o modal de confirmação
+  };
+
+  const handleCloseRenegociarModal = () => {
+    setShowRenegociarModal(false);
+    setEscolhaNecessaria(false);
+    
+  };
+
   return (
     <>
       {/* Modal de Pagar Parcela */}
-      <Modal show={show && !escolhaNecessaria && !showConfirmacao} onHide={onClose}>
+      <Modal show={show && !escolhaNecessaria && !showConfirmacao} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Receber Parcela</Modal.Title>
         </Modal.Header>
@@ -129,7 +182,7 @@ const ModalReceberParcela: React.FC<ModalReceberParcelaProps> = ({
       </Modal>
 
       {/* Modal de Escolha Necessária */}
-      <Modal show={escolhaNecessaria} onHide={() => setEscolhaNecessaria(false)}>
+      <Modal show={escolhaNecessaria} onHide={handleHide}>
         <Modal.Header closeButton>
           <Modal.Title>Escolha Necessária</Modal.Title>
         </Modal.Header>
@@ -138,21 +191,26 @@ const ModalReceberParcela: React.FC<ModalReceberParcelaProps> = ({
           <Button variant='primary' onClick={handleAplicarDesconto}>
             Aplicar Desconto
           </Button>
-          <Button variant='secondary' onClick={() => setEscolhaNecessaria(false)}>
+          <Button variant='secondary' onClick={handleGerarNovasParcelas}>
             Gerar Novas Parcelas
           </Button>
         </Modal.Body>
       </Modal>
 
       {/* Modal de Confirmação */}
-      <Modal show={showConfirmacao} onHide={handleCloseConfirmacao}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmação de Pagamento</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>{mensagemConfirmacao}</p>
-        </Modal.Body>
-      </Modal>
+      <ModalConfirmacao
+        show={showConfirmacao}
+        mensagem={mensagemConfirmacao}
+        onClose={handleCloseConfirmacao}
+      />
+
+      {/* Modal de Renegociar Parcelas */}
+      <ModalRenegociarParcela
+        show={showRenegociarModal}
+        onClose={handleCloseRenegociarModal}
+        parcelaId={parcelaId}
+        onRenegociacaoFinalizada={handleRenegociacaoFinalizada}
+      />
     </>
   );
 };
