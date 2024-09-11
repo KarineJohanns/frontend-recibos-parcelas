@@ -16,8 +16,10 @@ const ParcelaList: React.FC = () => {
   const [showCriarModal, setShowCriarModal] = useState<boolean>(false);
   const [showDetalhesModal, setShowDetalhesModal] = useState<boolean>(false);
   const [showEditarModal, setShowEditarModal] = useState<boolean>(false);
-  const [showConfirmacaoExclusao, setShowConfirmacaoExclusao] = useState<boolean>(false); // Estado para o modal de confirmação de exclusão
-  const [showRenegociacaoModal, setShowRenegociacaoModal] = useState<boolean>(false); // Estado para o modal de renegociação
+  const [showConfirmacaoExclusao, setShowConfirmacaoExclusao] =
+    useState<boolean>(false); // Estado para o modal de confirmação de exclusão
+  const [showRenegociacaoModal, setShowRenegociacaoModal] =
+    useState<boolean>(false); // Estado para o modal de renegociação
   const [parcelaId, setParcelaId] = useState<number | null>(null);
   const [selectedParcela, setSelectedParcela] = useState<any | null>(null);
   const [search, setSearch] = useState<string>('');
@@ -88,7 +90,9 @@ const ParcelaList: React.FC = () => {
 
     try {
       await api.delete(`/parcelas/${parcelaId}`);
-      setParcelas(prevParcelas => prevParcelas.filter(parcela => parcela.parcelaId !== parcelaId));
+      setParcelas(prevParcelas =>
+        prevParcelas.filter(parcela => parcela.parcelaId !== parcelaId)
+      );
       setShowConfirmacaoExclusao(false);
     } catch (error) {
       console.error('Erro ao excluir parcela', error);
@@ -179,10 +183,7 @@ const ParcelaList: React.FC = () => {
         onClose={handleModalClose}
         parcelaId={parcelaId || 0}
       />
-      <ModalCriarParcela
-        show={showCriarModal}
-        onClose={handleModalClose}
-      />
+      <ModalCriarParcela show={showCriarModal} onClose={handleModalClose} />
       <ModalDetalhes
         show={showDetalhesModal}
         onClose={handleModalClose}

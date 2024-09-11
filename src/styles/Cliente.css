@@ -1,0 +1,83 @@
+/* Listagem de clientes, define margem superior */
+.clientes-list {
+  margin-top: 1rem;
+}
+
+/* Estilo dos itens individuais na listagem de clientes */
+.cliente-item {
+  border: 1px solid #ddd; /* Borda leve ao redor do item */
+  border-radius: 8px; /* Bordas arredondadas */
+  background-color: #fff; /* Fundo branco */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave ao redor do item */
+  transition: box-shadow 0.3s ease; /* Transição suave ao passar o mouse */
+  display: flex; /* Flexbox para organizar os itens horizontalmente */
+  justify-content: space-between; /* Espaça os itens ao máximo */
+  align-items: center; /* Alinha os itens verticalmente ao centro */
+  padding: 15px; /* Espaçamento interno */
+  margin-bottom: 15px; /* Espaçamento inferior entre os itens */
+  flex-wrap: wrap; /* Permite que os itens quebrem a linha se necessário */
+}
+
+/* Efeito de hover para os itens da listagem */
+.cliente-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra mais forte ao passar o mouse */
+}
+
+/* Estilo do botão de menu suspenso personalizado */
+.custom-dropdown-toggle {
+  cursor: pointer; /* Mostra o cursor de pointer (mãozinha) */
+}
+
+/* Estilo da área de informações do cliente */
+.info {
+  flex: 1; /* Faz a área de informações ocupar o máximo de espaço disponível */
+}
+
+/* Estilo do badge (caso haja algum elemento badge) */
+.badge {
+  margin-left: 10px; /* Espaçamento à esquerda do badge */
+}
+
+/* Container da lista de clientes, adiciona margem ao redor */
+.cliente-list-container {
+  margin: 20px; /* Margem ao redor do container da lista */
+}
+
+/* Cabeçalho da listagem de clientes */
+.cliente-list-header {
+  display: flex; /* Flexbox para alinhar os itens do cabeçalho */
+  flex-direction: column; /* Alinha os itens verticalmente */
+  align-items: flex-end; /* Alinha o conteúdo à direita */
+  width: 70%; /* Define a largura do cabeçalho */
+  margin: 0 auto; /* Centraliza o cabeçalho horizontalmente */
+}
+
+/* Estilo do título da lista de clientes */
+.cliente-list-header h1 {
+  font-size: 1.5rem; /* Tamanho da fonte do título */
+  margin-bottom: 1rem; /* Espaçamento inferior do título */
+}
+
+/* Define que a linha no cabeçalho ocupe toda a largura disponível */
+.cliente-list-header .row {
+  width: 100%;
+}
+
+/* Estilo do nome do cliente */
+.cliente-nome {
+  font-size: 20px; /* Tamanho da fonte do nome do cliente */
+  margin-bottom: 0.5rem; /* Espaçamento inferior do nome do cliente */
+}
+
+/* Alinhamento horizontal dos itens dentro do formulário */
+.align-items-center {
+  display: flex;
+  justify-content: space-between; /* Espaça os itens dentro do formulário horizontalmente */
+}
+
+/* Estilos responsivos entre 768px e 1024px de largura */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .cliente-list-container {
+    margin-left: 60px; /* Ajuste da margem à esquerda para telas médias */
+  }
+}
