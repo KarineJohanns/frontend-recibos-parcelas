@@ -1,0 +1,9 @@
+
+  /* Estiliza o conteúdo para telas menores que 768px */
+  @media (max-width: 768px) {
+    .emitente-content {
+      margin: 1.5rem 5rem;     /* Não desloca o conteúdo em telas pequenas */
+      padding: 10px;      /* Espaçamento interno reduzido para dispositivos móveis */
+    }
+  }
+  

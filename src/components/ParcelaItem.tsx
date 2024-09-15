@@ -15,6 +15,7 @@ interface ParcelaItemProps {
     };
     paga: boolean;
     parcelaId: number;
+    documento: string; // Adicionado campo documento
   };
   onReceber: (id: number) => void;
   onEditar: (id: number) => void;
@@ -58,7 +59,7 @@ const ParcelaItem: React.FC<ParcelaItemProps> = ({
   return (
     <div className='parcela-item d-flex justify-content-between align-items-center mb-2 p-3'>
       <div className='info'>
-        <div>{`Parcela ${parcela.numeroParcela}/${parcela.numeroParcelas}`}</div>
+        <div>Documento: {parcela.documento}</div> {/* Novo campo Documento */}
         <div>Valor: {formatarValor(parcela.valorParcela)}</div>
         <div>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</div>
         <div>Cliente: {parcela.cliente.clienteNome}</div>

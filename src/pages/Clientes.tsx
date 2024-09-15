@@ -173,16 +173,16 @@ const Clientes: React.FC = () => {
   );
 
   return (
-    <div className=''>
+    <div className='d-flex'>
       <div className='col-md-3'>
         <Menu />
       </div>
       <div className='col-md-9'>
         <div className='cliente-list-container'>
-          <div className='cliente-list-header'>
+          <div className='cliente-list-header d-flex justify-content-center'>
             <h1>Clientes</h1>
             <Row className='align-items-center mb-3'>
-              <Col md={6}>
+              <Col xs={12} md={8}>
                 <Form.Control
                   className='form-clientes'
                   type='text'
@@ -191,9 +191,9 @@ const Clientes: React.FC = () => {
                   onChange={handleSearchChange}
                 />
               </Col>
-              <Col md={3} className='text-end'>
+              <Col xs={12} md={4}>
                 <Button variant='primary' onClick={() => setShowCadastroModal(true)}>
-                  Criar Novo Cliente
+                  Novo Cliente
                 </Button>
               </Col>
             </Row>

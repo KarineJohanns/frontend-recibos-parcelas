@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { NumericFormat } from 'react-number-format';
-import DatePicker from 'react-datepicker'; // Importa o DatePicker
-import 'react-datepicker/dist/react-datepicker.css'; // Importa o CSS do DatePicker
 import api from '../../api/axios';
 import { format, parse, isValid } from 'date-fns'; // Importar funções para manipulação de data
 
@@ -29,11 +27,11 @@ const ModalRenegociacao: React.FC<ModalRenegociacaoProps> = ({
         try {
           const response = await api.get(`/parcelas/${parcelaId}`);
           const parcela = response.data;
+          console.log('Detalhes da parcela:', parcela);
           setNumeroParcelas(1); // Ajustar conforme a lógica
           setNovoIntervalo(parcela.intervalo);
           setValorTotalParcela(parcela.valorParcela);
-          // Converter a data do formato yyyy-MM-dd para Date
-          setDataPrimeiraParcela(new Date(parcela.dataVencimento));
+          setDataPrimeiraParcela(format(new Date(parcela.dataVencimento), 'yyyy-MM-dd'));
         } catch (error) {
           console.error('Erro ao buscar detalhes da parcela', error);
         }
@@ -68,14 +66,12 @@ const ModalRenegociacao: React.FC<ModalRenegociacaoProps> = ({
     }
 
     try {
-      // Converter a data do formato Date para yyyy-MM-dd
-      const dataPrimeiraParcelaFormatada = format(dataPrimeiraParcela!, 'yyyy-MM-dd');
 
-      await api.post(`/parcelas/${parcelaId}/escolha`, {
+      await api.patch(`/parcelas/${parcelaId}/escolha`, {
         gerarNovasParcelas: true,
         numeroParcelasRenegociacao: numeroParcelas,
         novoIntervalo,
-        dataPrimeiraParcela: dataPrimeiraParcelaFormatada,
+        dataPrimeiraParcela,
         valorTotalParcela, // Incluir o valor total da parcela na requisição
       });
       onClose(); // Fecha o modal após a renegociação
@@ -90,8 +86,8 @@ const ModalRenegociacao: React.FC<ModalRenegociacaoProps> = ({
     setFormErrors(prevErrors => ({ ...prevErrors, valorTotalParcela: '' }));
   };
 
-  const handleDataPrimeiraParcelaChange = (date: Date | null) => {
-    setDataPrimeiraParcela(date);
+  const handleDataPrimeiraParcelaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDataPrimeiraParcela(e.target.value);
     setFormErrors(prevErrors => ({ ...prevErrors, dataPrimeiraParcela: '' }));
   };
 
@@ -125,13 +121,12 @@ const ModalRenegociacao: React.FC<ModalRenegociacaoProps> = ({
           </Form.Group>
 
           <Form.Group controlId='formDataPrimeiraParcela'>
-            <Form.Label>Data da Primeira Parcela </Form.Label>
-            <DatePicker
-              selected={dataPrimeiraParcela}
+            <Form.Label>Data da Primeira Parcela</Form.Label>
+            <Form.Control
+            type='date'
               onChange={handleDataPrimeiraParcelaChange}
-              dateFormat='dd/MM/yyyy'
+              value={dataPrimeiraParcela}
               className={`form-control ${formErrors.dataPrimeiraParcela ? 'is-invalid' : ''}`}
-              placeholderText='Selecione a data'
             />
             {formErrors.dataPrimeiraParcela && (
               <Form.Text className='text-danger'>

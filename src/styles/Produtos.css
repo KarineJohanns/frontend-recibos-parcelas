@@ -1,0 +1,59 @@
+/* src/pages/Produtos.css */
+
+.produto-list-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Alinha o conteúdo verticalmente ao centro */
+}
+
+.produto-list-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o h1 e o button horizontalmente */
+  margin-bottom: 20px; /* Adiciona espaço entre o cabeçalho e o restante do conteúdo */
+}
+
+.produto-list-title {
+  display: flex;
+  margin: 1rem;
+}
+.produto-list-title h1 {
+  margin-right: 1rem;
+}
+.produto-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .produto-card {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .produto-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .produto-card .card-body {
+    padding: 15px;
+  }
+  
+  .produto-card .card-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .produto-card .card-text {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .produto-card .btn {
+    margin-top: 10px;
+  }
+  

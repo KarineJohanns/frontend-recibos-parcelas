@@ -5,3 +5,8 @@
   .select-error .react-select__indicator {
     color: #dc3545 !important;
   }
+
+  .formDataVencimento {
+    display: flex;
+    flex-direction: column;
+  }

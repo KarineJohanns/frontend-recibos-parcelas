@@ -47,7 +47,7 @@
 .cliente-list-header {
   display: flex; /* Flexbox para alinhar os itens do cabeçalho */
   flex-direction: column; /* Alinha os itens verticalmente */
-  align-items: flex-end; /* Alinha o conteúdo à direita */
+  align-items: center; /* Alinha o conteúdo à direita */
   width: 70%; /* Define a largura do cabeçalho */
   margin: 0 auto; /* Centraliza o cabeçalho horizontalmente */
 }

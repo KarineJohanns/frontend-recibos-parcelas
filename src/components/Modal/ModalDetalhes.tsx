@@ -85,7 +85,7 @@ const ModalDetalhes: React.FC<ModalDetalhesProps> = ({
             <div className='col-lg-4 col-md-6 mb-2 filho3'>
               <p>
                 <strong>Valor: </strong>R$
-                {parcela.valorParcela.toFixed(2)}
+                {(parcela.valorParcela / 100).toFixed(2).replace('.', ',')}
               </p>
             </div>
           </div>

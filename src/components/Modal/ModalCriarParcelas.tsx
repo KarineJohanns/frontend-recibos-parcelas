@@ -34,10 +34,10 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
   const [produtoSelecionado, setProdutoSelecionado] =
     useState<ProdutoOption | null>(null);
   const [dataVencimento, setDataVencimento] = useState<string>(() => {
-    // Data atual por padrão, mas o usuário pode alterar
     return new Date().toISOString().split('T')[0];
   });
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [documento, setDocumento] = useState<string>('');
 
   useEffect(() => {
     const fetchClientes = async () => {
@@ -90,13 +90,13 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
 
   useEffect(() => {
     if (!show) {
-      // Resetar os estados quando o modal for fechado
       setNovoIntervalo('MENSAL');
       setNumeroParcelas(1);
       setDataVencimento(new Date().toISOString().split('T')[0]);
       setValorTotalProduto(0);
       setClienteSelecionado(null);
       setProdutoSelecionado(null);
+      setDocumento('');
     }
   }, [show]);
 
@@ -108,6 +108,7 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
       errors.valorTotalProduto = 'Valor Total do Produto é obrigatório';
     if (!dataVencimento)
       errors.dataVencimento = 'Data de Vencimento é obrigatória';
+    if (!documento) errors.documento = 'Documento é obrigatório';
     return errors;
   };
 
@@ -125,11 +126,12 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
         valorTotalProduto,
         numeroParcelas,
         intervalo: novoIntervalo,
-        dataCriacao: new Date().toISOString().split('T')[0], // data atual
+        dataCriacao: new Date().toISOString().split('T')[0],
         dataVencimento,
-        emitenteId: 1, // Pode ser modificado conforme necessário
+        emitenteId: 1,
+        documento,
       });
-      onClose(); // Fecha o modal
+      onClose();
     } catch (error) {
       console.error('Erro ao criar parcela', error);
     }
@@ -158,6 +160,11 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
     setFormErrors(prevErrors => ({ ...prevErrors, dataVencimento: '' }));
   };
 
+  const handleDocumentoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDocumento(e.target.value);
+    setFormErrors(prevErrors => ({ ...prevErrors, documento: '' }));
+  };
+
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
@@ -165,6 +172,21 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
       </Modal.Header>
       <Modal.Body>
         <Form>
+          <Form.Group controlId='formDocumento'>
+            <Form.Label>Documento</Form.Label>
+            <Form.Control
+              type='text'
+              value={documento}
+              onChange={handleDocumentoChange}
+              placeholder='Digite o documento'
+              className={formErrors.documento ? 'is-invalid' : ''}
+            />
+            {formErrors.documento && (
+              <Form.Text className='text-danger'>
+                {formErrors.documento}
+              </Form.Text>
+            )}
+          </Form.Group>
           <Form.Group controlId='formCliente'>
             <Form.Label>Cliente</Form.Label>
             <Select
@@ -204,7 +226,7 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
           <Form.Group controlId='formValorTotalProduto'>
             <Form.Label>Valor Total do Produto</Form.Label>
             <NumericFormat
-              value={valorTotalProduto / 100} // Exibindo em reais
+              value={valorTotalProduto / 100}
               thousandSeparator='.'
               decimalSeparator=','
               decimalScale={2}
@@ -252,9 +274,6 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
               type='date'
               value={dataVencimento}
               onChange={handleDataVencimentoChange}
-              className={`form-control ${
-                formErrors.dataVencimento ? 'is-invalid' : ''
-              }`}
             />
             {formErrors.dataVencimento && (
               <Form.Text className='text-danger'>
@@ -262,12 +281,16 @@ const ModalCriarParcela: React.FC<ModalCriarParcelaProps> = ({
               </Form.Text>
             )}
           </Form.Group>
-
-          <Button variant='primary' onClick={handleCriarParcela}>
-            Criar Parcela
-          </Button>
         </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant='secondary' onClick={onClose}>
+          Cancelar
+        </Button>
+        <Button variant='primary' onClick={handleCriarParcela}>
+          Criar Parcela
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

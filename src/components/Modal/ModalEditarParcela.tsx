@@ -77,8 +77,7 @@ const ModalEditarParcela: React.FC<ModalEditarParcelaProps> = ({
           setNovoIntervalo(parcela.intervalo);
           setNumeroParcelas(1);
           setValorParcela(parcela.valorParcela);
-          // Converter a data do formato yyyy-MM-dd para dd/MM/yyyy
-          setDataVencimento(format(new Date(parcela.dataVencimento), 'dd/MM/yyyy'));
+          setDataVencimento(format(new Date(parcela.dataVencimento), 'yyyy-MM-dd'));
           setClienteSelecionado({ value: parcela.cliente.clienteId, label: parcela.cliente.clienteNome });
           setProdutoSelecionado({ value: parcela.produto.produtoId, label: parcela.produto.produtoNome });
         } catch (error) {
@@ -117,8 +116,6 @@ const ModalEditarParcela: React.FC<ModalEditarParcelaProps> = ({
     }
 
     try {
-      // Converter a data do formato dd/MM/yyyy para yyyy-MM-dd
-      const dataVencimentoFormatada = format(parse(dataVencimento, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd');
 
       await api.patch(`/parcelas/${parcelaId}`, {
         clienteId: clienteSelecionado?.value,
@@ -126,7 +123,7 @@ const ModalEditarParcela: React.FC<ModalEditarParcelaProps> = ({
         valorParcela,
         numeroParcelas,
         intervalo: novoIntervalo,
-        dataVencimento: dataVencimentoFormatada,
+        dataVencimento,
       });
       onClose(); // Fecha o modal
     } catch (error) {
@@ -226,7 +223,7 @@ const ModalEditarParcela: React.FC<ModalEditarParcelaProps> = ({
           <Form.Group controlId='formDataVencimento'>
             <Form.Label>Data de Vencimento</Form.Label>
             <Form.Control
-              type='text'
+              type='date'
               value={dataVencimento}
               onChange={handleDataVencimentoChange}
               placeholder='dd/MM/yyyy'
